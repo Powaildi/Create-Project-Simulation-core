@@ -70,3 +70,17 @@ For Modpack Create: Project Simulation
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="mbd2"
+    type="optional"
+    versionRange="[${mbd2_version},)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="powergrid"
+    type="optional"
+    versionRange="[${powergrid_mod_version},)"
+    ordering="AFTER"
+    side="BOTH"

@@ -27,6 +27,14 @@ sourceSets.main.resources {
 
 repositories {
     // Add here additional repositories if required by some of the dependencies below.
+    maven {
+        name = 'FirstDark snapshots'
+        url = uri('https://maven.firstdark.dev/snapshots')
+    }
+    maven {
+        name = 'Modrinth'
+        url = uri('https://api.modrinth.com/maven')
+    }
 }
 
 base {
@@ -115,12 +123,11 @@ configurations {
 }
 
 dependencies {
-    // Example optional mod dependency with JEI
-    // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
-    // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
-    // compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
-    // We add the full version to localRuntime, not runtimeOnly, so that we do not publish a dependency on it
-    // localRuntime "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
+    // Optional integrations are compile-only and are available in local development runs.
+    compileOnly "com.lowdragmc.multiblocked2:Multiblocked2-1.21-${minecraft_version}:${mbd2_version}"
+    localRuntime "com.lowdragmc.multiblocked2:Multiblocked2-1.21-${minecraft_version}:${mbd2_version}"
+    compileOnly "maven.modrinth:eWiBLJ9R:${powergrid_version}"
+    localRuntime "maven.modrinth:eWiBLJ9R:${powergrid_version}"
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
@@ -150,6 +157,9 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_name               : mod_name,
             mod_license            : mod_license,
             mod_version            : mod_version,
+            mbd2_version            : mbd2_version,
+            powergrid_version       : powergrid_version,
+            powergrid_mod_version   : powergrid_mod_version,
     ]
     inputs.properties replaceProperties
     expand replaceProperties
