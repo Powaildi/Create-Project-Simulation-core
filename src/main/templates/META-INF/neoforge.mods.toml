@@ -35,8 +35,8 @@ For Modpack Create: Project Simulation
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
-#[[mixins]]
-#config="${mod_id}.mixins.json"
+[[mixins]]
+config="cpscore_ldlib2_ftblibrary.mixins.json"
 
 # The [[accessTransformers]] block allows you to declare where your AT file is.
 # If this block is omitted, a fallback attempt will be made to load an AT from META-INF/accesstransformer.cfg
@@ -84,3 +84,17 @@ For Modpack Create: Project Simulation
     versionRange="[${powergrid_mod_version},)"
     ordering="AFTER"
     side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="ldlib2"
+    type="optional"
+    versionRange="[${ldlib2_version},)"
+    ordering="AFTER"
+    side="CLIENT"
+
+[[dependencies.${mod_id}]]
+    modId="ftblibrary"
+    type="optional"
+    versionRange="[${ftblibrary_version},)"
+    ordering="AFTER"
+    side="CLIENT"

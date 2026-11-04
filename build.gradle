@@ -35,6 +35,10 @@ repositories {
         name = 'Modrinth'
         url = uri('https://api.modrinth.com/maven')
     }
+    maven {
+        name = 'Curse Maven'
+        url = uri('https://www.cursemaven.com')
+    }
 }
 
 base {
@@ -128,6 +132,10 @@ dependencies {
     localRuntime "com.lowdragmc.multiblocked2:Multiblocked2-1.21-${minecraft_version}:${mbd2_version}"
     compileOnly "maven.modrinth:eWiBLJ9R:${powergrid_version}"
     localRuntime "maven.modrinth:eWiBLJ9R:${powergrid_version}"
+    compileOnly "com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:${ldlib2_version}:all"
+    localRuntime "com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:${ldlib2_version}:all"
+    compileOnly "curse.maven:ftb-library-forge-404465:${ftblibrary_file_id}"
+    localRuntime "curse.maven:ftb-library-forge-404465:${ftblibrary_file_id}"
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
@@ -160,6 +168,8 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mbd2_version            : mbd2_version,
             powergrid_version       : powergrid_version,
             powergrid_mod_version   : powergrid_mod_version,
+            ldlib2_version          : ldlib2_version,
+            ftblibrary_version      : ftblibrary_version,
     ]
     inputs.properties replaceProperties
     expand replaceProperties
