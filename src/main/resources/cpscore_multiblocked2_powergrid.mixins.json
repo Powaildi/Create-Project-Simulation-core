@@ -1,0 +1,14 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "com.powaildi.cpscore.integration.multiblocked2powergrid.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "KineticBlockEntityMixin",
+    "MBDKineticMachineBlockEntityMixin",
+    "MBDKineticMachineBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

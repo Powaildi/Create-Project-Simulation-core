@@ -1,0 +1,8 @@
+{
+  "config.definition.trait.powergrid_output.name": "Power Grid Output",
+  "config.powergrid_output.terminal_count": "Terminal Count",
+  "config.powergrid_output.terminal_positions": "Terminal Positions",
+  "config.powergrid_output.terminal_functions": "Terminal Functions",
+  "config.powergrid_output.voltage": "Voltage",
+  "config.powergrid_output.max_current": "Maximum Current"
+}

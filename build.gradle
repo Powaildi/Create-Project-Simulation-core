@@ -39,6 +39,10 @@ repositories {
         name = 'Curse Maven'
         url = uri('https://www.cursemaven.com')
     }
+    maven {
+        name = 'Create'
+        url = uri('https://maven.createmod.net')
+    }
 }
 
 base {
@@ -136,6 +140,22 @@ dependencies {
     localRuntime "com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:${ldlib2_version}:all"
     compileOnly "curse.maven:ftb-library-forge-404465:${ftblibrary_file_id}"
     localRuntime "curse.maven:ftb-library-forge-404465:${ftblibrary_file_id}"
+    compileOnly("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") {
+        transitive = false
+    }
+    localRuntime("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") {
+        transitive = false
+    }
+    compileOnly files("libs/Registrate-MC1.21-1.3.0+67.jar")
+    localRuntime files("libs/Registrate-MC1.21-1.3.0+67.jar")
+    compileOnly("net.createmod.ponder:ponder-neoforge:${ponder_version}+mc${minecraft_version}") {
+        exclude group: "fuzs.forgeconfigapiport", module: "forgeconfigapiport-common-neoforgeapi"
+    }
+    localRuntime("net.createmod.ponder:ponder-neoforge:${ponder_version}+mc${minecraft_version}") {
+        exclude group: "fuzs.forgeconfigapiport", module: "forgeconfigapiport-common-neoforgeapi"
+    }
+    compileOnly "maven.modrinth:ohNO6lps:iigguueA"
+    localRuntime "maven.modrinth:ohNO6lps:iigguueA"
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
@@ -170,6 +190,10 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             powergrid_mod_version   : powergrid_mod_version,
             ldlib2_version          : ldlib2_version,
             ftblibrary_version      : ftblibrary_version,
+            create_version          : create_version,
+            create_version_range    : create_version_range,
+            ponder_version          : ponder_version,
+            ponder_version_range    : ponder_version_range,
     ]
     inputs.properties replaceProperties
     expand replaceProperties

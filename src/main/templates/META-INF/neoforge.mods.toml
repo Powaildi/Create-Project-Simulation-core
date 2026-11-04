@@ -38,6 +38,9 @@ For Modpack Create: Project Simulation
 [[mixins]]
 config="cpscore_ldlib2_ftblibrary.mixins.json"
 
+[[mixins]]
+config="cpscore_multiblocked2_powergrid.mixins.json"
+
 # The [[accessTransformers]] block allows you to declare where your AT file is.
 # If this block is omitted, a fallback attempt will be made to load an AT from META-INF/accesstransformer.cfg
 #[[accessTransformers]]
@@ -96,5 +99,19 @@ config="cpscore_ldlib2_ftblibrary.mixins.json"
     modId="ftblibrary"
     type="optional"
     versionRange="[${ftblibrary_version},)"
+    ordering="AFTER"
+    side="CLIENT"
+
+[[dependencies.${mod_id}]]
+    modId="create"
+    type="optional"
+    versionRange="${create_version_range}"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="ponder"
+    type="optional"
+    versionRange="${ponder_version_range}"
     ordering="AFTER"
     side="CLIENT"

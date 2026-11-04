@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(FTBLibraryClient.class)
 public class FtbLibraryClientMixin {
 
-    @Inject(method = "areButtonsVisible", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "areButtonsVisible", at = @At("HEAD"), cancellable = true, require = 0)
     private static void cpscore$hideSidebarButtonsInEditor(Screen screen, CallbackInfoReturnable<Boolean> cir) {
         if (cpscore$isEditorScreen(screen)) {
             cir.setReturnValue(false);

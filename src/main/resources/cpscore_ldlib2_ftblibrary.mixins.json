@@ -1,5 +1,5 @@
 {
-  "required": true,
+  "required": false,
   "minVersion": "0.8",
   "package": "com.powaildi.cpscore.integration.ldlib2ftblibrary.mixin",
   "compatibilityLevel": "JAVA_21",
@@ -7,6 +7,6 @@
     "FtbLibraryClientMixin"
   ],
   "injectors": {
-    "defaultRequire": 1
+    "defaultRequire": 0
   }
 }

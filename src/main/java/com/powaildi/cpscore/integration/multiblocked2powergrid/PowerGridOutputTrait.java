@@ -34,7 +34,7 @@ public final class PowerGridOutputTrait extends Trait {
             return 0;
         }
         return Math.min(definition.getVoltage() * definition.getMaxCurrent(),
-                getMachine().getRecipeLogic().getProgress() * definition.getRecipeMultiplier());
+                getMachine().getRecipeLogic().getProgress());
     }
 
     private float outputVoltage() {
