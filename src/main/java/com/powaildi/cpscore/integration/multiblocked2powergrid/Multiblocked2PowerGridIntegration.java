@@ -12,4 +12,8 @@ public final class Multiblocked2PowerGridIntegration {
     public static boolean isAvailable() {
         return ModList.get().isLoaded(MBD2_MOD_ID) && ModList.get().isLoaded(POWERGRID_MOD_ID);
     }
+
+    public static BidirectionalPowerBridge createBridge(PowerGridEndpoint endpoint) {
+        return new BidirectionalPowerBridge(endpoint);
+    }
 }
