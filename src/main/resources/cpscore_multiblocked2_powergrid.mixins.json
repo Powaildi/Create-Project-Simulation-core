@@ -4,6 +4,7 @@
   "package": "com.powaildi.cpscore.integration.multiblocked2powergrid.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "MBDMachineBlockMixin",
     "KineticBlockEntityMixin",
     "MBDKineticMachineBlockEntityMixin",
     "MBDKineticMachineBlockMixin"

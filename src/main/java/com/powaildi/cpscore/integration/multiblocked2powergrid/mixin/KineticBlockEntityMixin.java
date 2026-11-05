@@ -1,7 +1,6 @@
 package com.powaildi.cpscore.integration.multiblocked2powergrid.mixin;
 
 import com.lowdragmc.mbd2.integration.create.machine.MBDKineticMachineBlockEntity;
-import com.powaildi.cpscore.integration.multiblocked2powergrid.PowerGridOutputTrait;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
@@ -22,9 +21,8 @@ public abstract class KineticBlockEntityMixin {
 
     @Inject(method = "addBehaviours", at = @At("TAIL"))
     private void cpscore$addElectricBehaviour(List<BlockEntityBehaviour> behaviours, CallbackInfo callbackInfo) {
-        if ((Object) this instanceof MBDKineticMachineBlockEntity blockEntity
-                && blockEntity.getMetaMachine() instanceof com.lowdragmc.mbd2.common.machine.MBDMachine machine
-                && machine.getAdditionalTraits().stream().anyMatch(PowerGridOutputTrait.class::isInstance)) {
+        if (cpscore$electricBehaviour == null
+                && (Object) this instanceof MBDKineticMachineBlockEntity) {
             cpscore$electricBehaviour = new ElectricBehaviour((SmartBlockEntity & org.patryk3211.powergrid.electricity.base.IElectricEntity) (Object) this);
             behaviours.add(cpscore$electricBehaviour);
         }

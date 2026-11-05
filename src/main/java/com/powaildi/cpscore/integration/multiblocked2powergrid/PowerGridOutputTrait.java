@@ -25,26 +25,53 @@ public final class PowerGridOutputTrait extends Trait {
                 builder.terminalNode(1),
                 sourceResistance());
         source.setVoltageProvider(this::outputVoltage);
+        source.setResistanceProvider(this::sourceResistance);
         builder.add(source);
         return source;
     }
 
     public double outputPower() {
-        if (!getMachine().getRecipeLogic().isWorking()) {
-            return 0;
+        var energy = recipeEnergy();
+        if (energy == null) {
+            energy = new PowerGridEnergy(definition.getContinuousPower(), definition.getVoltage());
         }
-        return Math.min(definition.getVoltage() * definition.getMaxCurrent(),
-                getMachine().getRecipeLogic().getProgress());
+        return Math.min(energy.power(), energy.voltage() * definition.getMaxCurrent());
     }
 
     private float outputVoltage() {
-        return outputPower() > 0 ? definition.getVoltage() : 0;
+        var energy = recipeEnergy();
+        var voltage = energy == null ? definition.getVoltage() : energy.voltage();
+        return outputPower() > 0 ? (float) voltage : 0;
     }
 
     private float sourceResistance() {
-        if (definition.getMaxCurrent() == 0) {
+        var energy = recipeEnergy();
+        var power = outputPower();
+        var voltage = energy == null ? definition.getVoltage() : energy.voltage();
+        if (power <= 0) {
             return Float.MAX_VALUE;
         }
-        return (float) definition.getVoltage() / definition.getMaxCurrent();
+        return (float) (voltage * voltage / power);
+    }
+
+    private PowerGridEnergy recipeEnergy() {
+        var logic = getMachine().getRecipeLogic();
+        var recipe = logic.getLastRecipe();
+        if (!logic.isWorking() || recipe == null) {
+            return null;
+        }
+        var contents = recipe.outputs.get(PowerGridEnergyRecipeCapability.CAP);
+        if (contents == null || contents.isEmpty()) {
+            return null;
+        }
+        var energy = contents.get(0);
+        if (energy == null || !(energy.content instanceof PowerGridEnergy recipeEnergy)) {
+            return null;
+        }
+        if (energy.perTick) {
+            return recipeEnergy;
+        }
+        var duration = Math.max(1, logic.getDuration());
+        return recipeEnergy.withPower(recipeEnergy.power() / duration);
     }
 }

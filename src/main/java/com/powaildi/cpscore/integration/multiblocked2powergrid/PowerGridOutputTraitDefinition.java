@@ -42,6 +42,10 @@ public class PowerGridOutputTraitDefinition extends TraitDefinition {
     @ConfigNumber(range = {0, Integer.MAX_VALUE})
     private int maxCurrent = 10;
 
+    @Configurable(name = "config.powergrid_output.continuous_power")
+    @ConfigNumber(range = {0, Integer.MAX_VALUE})
+    private int continuousPower = 0;
+
     @Configurable(name = "config.powergrid_output.terminal_positions")
     @ConfigList(canAdd = true, canRemove = true, canReorder = true)
     @ConfigNumber(range = {0, 16})
@@ -99,6 +103,17 @@ public class PowerGridOutputTraitDefinition extends TraitDefinition {
             throw new IllegalArgumentException("maxCurrent must be non-negative");
         }
         this.maxCurrent = maxCurrent;
+    }
+
+    public int getContinuousPower() {
+        return continuousPower;
+    }
+
+    public void setContinuousPower(int continuousPower) {
+        if (continuousPower < 0) {
+            throw new IllegalArgumentException("continuousPower must be non-negative");
+        }
+        this.continuousPower = continuousPower;
     }
 
     public Vector3f getTerminalPosition(int index) {

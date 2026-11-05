@@ -4,5 +4,8 @@
   "config.powergrid_output.terminal_positions": "Terminal Positions",
   "config.powergrid_output.terminal_functions": "Terminal Functions",
   "config.powergrid_output.voltage": "Voltage",
-  "config.powergrid_output.max_current": "Maximum Current"
+  "config.powergrid_output.max_current": "Maximum current",
+  "config.powergrid_output.continuous_power": "Continuous power",
+  "recipe.capability.powergrid_energy.power": "Power",
+  "recipe.capability.powergrid_energy.voltage": "Voltage"
 }
