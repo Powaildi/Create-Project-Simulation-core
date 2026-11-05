@@ -3,6 +3,8 @@ package com.powaildi.cpscore.integration.multiblocked2powergrid;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigList;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
+import com.lowdragmc.lowdraglib2.configurator.accessors.EnumAccessor;
+import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
@@ -19,6 +21,8 @@ import org.patryk3211.powergrid.electricity.base.IDecoratedTerminal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class PowerGridOutputTraitDefinition extends TraitDefinition {
     @LDLRegister(name = "powergrid_output", registry = "mbd2:trait_definition_type", group = "trait", modID = "cpscore")
@@ -52,7 +56,10 @@ public class PowerGridOutputTraitDefinition extends TraitDefinition {
     private List<Vector3f> terminalPositions = defaultTerminalPositions();
 
     @Configurable(name = "config.powergrid_output.terminal_functions")
-    @ConfigList(canAdd = true, canRemove = true, canReorder = true)
+    @ConfigList(
+            configuratorMethod = "terminalFunctionConfigurator",
+            addDefaultMethod = "defaultTerminalFunction",
+            canAdd = true, canRemove = true, canReorder = true)
     private List<TerminalFunction> terminalFunctions = defaultTerminalFunctions();
 
     @Override
@@ -134,7 +141,7 @@ public class PowerGridOutputTraitDefinition extends TraitDefinition {
     private static List<Vector3f> defaultTerminalPositions() {
         var positions = new ArrayList<Vector3f>();
         positions.add(new Vector3f(10, 4, 0));
-        positions.add(new Vector3f(5, 4, 0));
+        positions.add(new Vector3f(7, 4, 0));
         return positions;
     }
 
@@ -145,10 +152,25 @@ public class PowerGridOutputTraitDefinition extends TraitDefinition {
         return functions;
     }
 
+    private Configurator terminalFunctionConfigurator(Supplier<TerminalFunction> supplier,
+                                                       Consumer<TerminalFunction> onUpdate) {
+        return EnumAccessor.create(
+                "config.powergrid_output.terminal_function",
+                List.of(TerminalFunction.values()),
+                supplier,
+                onUpdate,
+                TerminalFunction.COMMON,
+                false);
+    }
+
+    private TerminalFunction defaultTerminalFunction() {
+        return TerminalFunction.COMMON;
+    }
+
     private static Vector3f defaultTerminalPosition(int index) {
         return switch (index) {
             case 0 -> new Vector3f(10, 4, 0);
-            case 1 -> new Vector3f(5, 4, 0);
+            case 1 -> new Vector3f(7, 4, 0);
             default -> new Vector3f(4 + Math.max(0, index - 2) * 3, 4, 0);
         };
     }

@@ -3,6 +3,7 @@
   "config.powergrid_output.terminal_count": "端子数量",
   "config.powergrid_output.terminal_positions": "端子位置",
   "config.powergrid_output.terminal_functions": "端子功能",
+  "config.powergrid_output.terminal_function": "端子功能",
   "config.powergrid_output.voltage": "电压",
   "config.powergrid_output.max_current": "最大电流",
   "config.powergrid_output.continuous_power": "持续输出功率",
