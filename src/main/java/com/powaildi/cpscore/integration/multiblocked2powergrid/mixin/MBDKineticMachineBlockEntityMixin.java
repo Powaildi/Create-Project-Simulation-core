@@ -64,4 +64,5 @@ public abstract class MBDKineticMachineBlockEntityMixin implements IElectricEnti
             behaviour.rebuildCircuit(false);
         }
     }
+
 }

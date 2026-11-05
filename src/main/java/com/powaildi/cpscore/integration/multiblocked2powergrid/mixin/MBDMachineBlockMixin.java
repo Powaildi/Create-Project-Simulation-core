@@ -2,17 +2,42 @@ package com.powaildi.cpscore.integration.multiblocked2powergrid.mixin;
 
 import com.lowdragmc.mbd2.common.block.MBDMachineBlock;
 import com.powaildi.cpscore.integration.multiblocked2powergrid.PowerGridOutputTraitDefinition;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.patryk3211.powergrid.electricity.base.IElectric;
+import org.patryk3211.powergrid.electricity.base.ElectricBehaviour;
 import org.patryk3211.powergrid.electricity.base.ITerminalPlacement;
 import org.patryk3211.powergrid.electricity.base.TerminalBoundingBox;
+import org.patryk3211.powergrid.electricity.deviceconnector.IAcceptConnector;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Pseudo
 @Mixin(MBDMachineBlock.class)
-public abstract class MBDMachineBlockMixin implements IElectric {
+public abstract class MBDMachineBlockMixin implements IElectric, IAcceptConnector {
+    @Override
+    public boolean isPolarized() {
+        return cpscore$definition() != null;
+    }
+
+    @Inject(method = "onRemove", at = @At("HEAD"))
+    private void cpscore$removeElectricBehaviour(
+            BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved, CallbackInfo callbackInfo) {
+        if (state.getBlock() == newState.getBlock() && newState.hasBlockEntity()) {
+            return;
+        }
+        var behaviour = BlockEntityBehaviour.get(level, pos, ElectricBehaviour.TYPE);
+        if (behaviour != null) {
+            behaviour.remove();
+        }
+    }
+
     @Override
     public int terminalCount() {
         var definition = cpscore$definition();

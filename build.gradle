@@ -208,6 +208,7 @@ neoForge.ideSyncTask generateModMetadata
 
 // Keep the Eclipse-style output layout used by ModDevGradle's VS Code launch configuration.
 tasks.register('syncVsCodeOutput', Sync) {
+    dependsOn classes
     from sourceSets.main.output
     into layout.projectDirectory.dir('bin/main')
 }
