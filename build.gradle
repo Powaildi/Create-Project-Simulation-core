@@ -206,6 +206,35 @@ sourceSets.main.resources.srcDir generateModMetadata
 // To avoid having to run "generateModMetadata" manually, make it run on every project reload
 neoForge.ideSyncTask generateModMetadata
 
+def vscodeDirectory = file(".vscode")
+def vscodeLaunchFile = file(".vscode/launch.json")
+def restoreVscodeLaunch = tasks.register("restoreVscodeLaunch") {
+    doLast {
+        vscodeDirectory.mkdirs()
+        vscodeLaunchFile.text = """{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Gradle: runClient",
+      "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\\\\gradle\\\\run-client.ps1",
+      "cwd": "\${workspaceFolder}",
+      "presentation": {
+        "group": "Mod Development - cpscore-1.21.1",
+        "order": 0
+      }
+    }
+  ]
+}
+"""
+    }
+}
+
+tasks.matching { it.name == "neoForgeIdeSync" || it.name == "build" }.configureEach {
+    finalizedBy restoreVscodeLaunch
+}
+
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
     publications {

@@ -134,7 +134,7 @@ public class PowerGridOutputTraitDefinition extends TraitDefinition {
     private static List<Vector3f> defaultTerminalPositions() {
         var positions = new ArrayList<Vector3f>();
         positions.add(new Vector3f(10, 4, 0));
-        positions.add(new Vector3f(7, 4, 0));
+        positions.add(new Vector3f(5, 4, 0));
         return positions;
     }
 
@@ -148,7 +148,7 @@ public class PowerGridOutputTraitDefinition extends TraitDefinition {
     private static Vector3f defaultTerminalPosition(int index) {
         return switch (index) {
             case 0 -> new Vector3f(10, 4, 0);
-            case 1 -> new Vector3f(7, 4, 0);
+            case 1 -> new Vector3f(5, 4, 0);
             default -> new Vector3f(4 + Math.max(0, index - 2) * 3, 4, 0);
         };
     }
