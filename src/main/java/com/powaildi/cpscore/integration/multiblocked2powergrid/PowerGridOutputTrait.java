@@ -2,15 +2,43 @@ package com.powaildi.cpscore.integration.multiblocked2powergrid;
 
 import com.lowdragmc.mbd2.common.machine.MBDMachine;
 import com.lowdragmc.mbd2.common.trait.Trait;
+import com.lowdragmc.mbd2.api.capability.recipe.IRecipeHandlerTrait;
+import com.lowdragmc.mbd2.api.capability.recipe.IO;
+import com.lowdragmc.mbd2.api.capability.recipe.RecipeCapability;
+import com.lowdragmc.mbd2.api.recipe.MBDRecipe;
+import java.util.List;
+import javax.annotation.Nullable;
 import org.patryk3211.powergrid.electricity.base.IElectricEntity;
 import org.patryk3211.powergrid.electricity.sim.node.ProvidedVoltageSourceCoupling;
 
-public final class PowerGridOutputTrait extends Trait {
+public final class PowerGridOutputTrait extends Trait implements IRecipeHandlerTrait<PowerGridEnergy> {
     private final PowerGridOutputTraitDefinition definition;
 
     public PowerGridOutputTrait(MBDMachine machine, PowerGridOutputTraitDefinition definition) {
         super(machine, definition);
         this.definition = definition;
+    }
+
+    @Override
+    public List<IRecipeHandlerTrait<?>> getRecipeHandlerTraits() {
+        return List.of(this);
+    }
+
+    @Override
+    public IO getHandlerIO() {
+        return IO.OUT;
+    }
+
+    @Override
+    public RecipeCapability<PowerGridEnergy> getRecipeCapability() {
+        return PowerGridEnergyRecipeCapability.CAP;
+    }
+
+    @Override
+    @Nullable
+    public List<PowerGridEnergy> handleRecipeInner(
+            IO io, MBDRecipe recipe, List<PowerGridEnergy> left, @Nullable String slotName, boolean simulate) {
+        return io == IO.OUT ? null : left;
     }
 
     /**
