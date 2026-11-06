@@ -67,6 +67,28 @@ public class PowerGridOutputTraitDefinition extends TraitDefinition {
         return new PowerGridOutputTrait(machine, this);
     }
 
+    /**
+     * A machine has at most one Power Grid source circuit, so the definition must not be added twice.
+     */
+    @Override
+    public boolean allowMultiple() {
+        return false;
+    }
+
+    /**
+     * This is a system trait, not a generic machine part: it only works on the machine controller block
+     * and is attached by the machine definition that actually exposes Power Grid terminals. Marking it
+     * mandatory keeps it out of the editor's "Add Trait" list for ordinary single-block and multiblock
+     * machines, and stops it from being removed from a definition that already carries it.
+     *
+     * <p>Mandatory does not auto-attach it to every machine — a definition still has to add it from
+     * {@code loadFactory()} (the same pattern Create's rotation trait uses).</p>
+     */
+    @Override
+    public boolean isMandatory() {
+        return true;
+    }
+
     @Override
     public TraitDefinitionType<?> type() {
         return TYPE;

@@ -134,6 +134,8 @@ dependencies {
     // Optional integrations are compile-only and are available in local development runs.
     compileOnly "com.lowdragmc.multiblocked2:Multiblocked2-1.21-${minecraft_version}:${mbd2_version}"
     localRuntime "com.lowdragmc.multiblocked2:Multiblocked2-1.21-${minecraft_version}:${mbd2_version}"
+    compileOnly "com.lowdragmc.kilagraph:kilagraph-neoforge-${minecraft_version}:${kilagraph_version}"
+    localRuntime "com.lowdragmc.kilagraph:kilagraph-neoforge-${minecraft_version}:${kilagraph_version}"
     compileOnly "maven.modrinth:eWiBLJ9R:${powergrid_version}"
     localRuntime "maven.modrinth:eWiBLJ9R:${powergrid_version}"
     compileOnly "com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:${ldlib2_version}:all"

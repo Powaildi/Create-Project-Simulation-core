@@ -20,6 +20,11 @@ public final class PowerGridOutputTrait extends Trait implements IRecipeHandlerT
     }
 
     @Override
+    public PowerGridOutputTraitDefinition getDefinition() {
+        return definition;
+    }
+
+    @Override
     public List<IRecipeHandlerTrait<?>> getRecipeHandlerTraits() {
         return List.of(this);
     }
@@ -64,6 +69,29 @@ public final class PowerGridOutputTrait extends Trait implements IRecipeHandlerT
             energy = new PowerGridEnergy(definition.getContinuousPower(), definition.getVoltage());
         }
         return Math.min(energy.power(), energy.voltage() * definition.getMaxCurrent());
+    }
+
+    /**
+     * The voltage the source currently presents, for blueprints and other read-only views.
+     */
+    public double getOutputVoltage() {
+        return outputVoltage();
+    }
+
+    /**
+     * The source's internal resistance at the current output point, for blueprints and other
+     * read-only views.
+     */
+    public double getSourceResistance() {
+        return sourceResistance();
+    }
+
+    /**
+     * The current the source delivers at the current output point. Zero when the source is idle.
+     */
+    public double getOutputCurrent() {
+        var voltage = getOutputVoltage();
+        return voltage <= 0 ? 0 : outputPower() / voltage;
     }
 
     private float outputVoltage() {
