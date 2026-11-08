@@ -22,9 +22,27 @@ public final class PowerGridEnergySerializer implements IContentSerializer<Power
         throw new IllegalArgumentException("Expected PowerGridEnergy content");
     }
 
+    /**
+     * Recipe modifiers (including MBD2's parallel calculation) run every content through this.
+     * Power Grid output is a pair, so both halves scale together: N parallels produce N times the
+     * voltage and N times the power.
+     *
+     * <p>A modifier that would make the voltage non-positive or non-finite (a zero multiplier, for
+     * instance) leaves the voltage at its authored value; the power side already collapsed to zero,
+     * so the source produces nothing either way. The record itself refuses such a voltage, and a
+     * recipe modifier must not turn into a crash while a machine is matching recipes.</p>
+     */
     @Override
     public PowerGridEnergy copyWithModifier(PowerGridEnergy content, ContentModifier modifier) {
-        return content.withPower(modifier.apply(content.power()).doubleValue());
+        var power = modifier.apply(content.power()).doubleValue();
+        var voltage = modifier.apply(content.voltage()).doubleValue();
+        if (!Double.isFinite(power) || power < 0) {
+            power = 0;
+        }
+        if (!Double.isFinite(voltage) || voltage <= 0) {
+            voltage = content.voltage();
+        }
+        return new PowerGridEnergy(power, voltage);
     }
 
     @Override

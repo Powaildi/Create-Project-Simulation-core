@@ -69,14 +69,19 @@ public final class PowerGridBlueprintNodes {
     }
 
     /**
-     * What the machine's Power Grid source is delivering right now, plus the definition limits.
+     * What the machine's Power Grid source is delivering right now, plus its settings and the
+     * definition limits.
      *
      * <p>{@code power}, {@code voltage}, {@code current} and {@code sourceResistance} are the values
      * the live circuit is built from, so they already include the recipe output (or the definition's
      * continuous fallback) and the maximum-current cap. {@code working} is the host recipe logic's
-     * own state, which distinguishes "idle" from "working but producing nothing". The remaining
-     * values — {@code terminalCount}, {@code maxCurrent}, {@code continuousPower} and {@code
-     * ratedVoltage} — are what the machine editor configured, not the instantaneous values.</p>
+     * own state, which distinguishes "idle" from "working but producing nothing".</p>
+     *
+     * <p>{@code voltageSetting}, {@code currentLimit} and {@code powerSetting} are the effective
+     * values after any runtime override, and the three {@code *Overridden} flags say whether a
+     * blueprint or script has replaced the definition. The remaining values — {@code terminalCount},
+     * {@code maxCurrent}, {@code continuousPower} and {@code ratedVoltage} — are what the machine
+     * editor configured, not the instantaneous values.</p>
      */
     @NodeAttribute(name = "mbd2_powergrid_output_info", group = GROUP, modID = MOD,
             graphTypes = MachineBlueprintGraph.class)
@@ -87,6 +92,12 @@ public final class PowerGridBlueprintNodes {
         @OutputPort public double voltage;
         @OutputPort public double current;
         @OutputPort public double sourceResistance;
+        @OutputPort public double voltageSetting;
+        @OutputPort public double currentLimit;
+        @OutputPort public double powerSetting;
+        @OutputPort public boolean voltageOverridden;
+        @OutputPort public boolean currentOverridden;
+        @OutputPort public boolean powerOverridden;
         @OutputPort public int terminalCount;
         @OutputPort public int maxCurrent;
         @OutputPort public double continuousPower;
@@ -101,6 +112,12 @@ public final class PowerGridBlueprintNodes {
                 ctx.setOutput("voltage", 0d);
                 ctx.setOutput("current", 0d);
                 ctx.setOutput("sourceResistance", 0d);
+                ctx.setOutput("voltageSetting", 0d);
+                ctx.setOutput("currentLimit", 0d);
+                ctx.setOutput("powerSetting", 0d);
+                ctx.setOutput("voltageOverridden", false);
+                ctx.setOutput("currentOverridden", false);
+                ctx.setOutput("powerOverridden", false);
                 ctx.setOutput("terminalCount", 0);
                 ctx.setOutput("maxCurrent", 0);
                 ctx.setOutput("continuousPower", 0d);
@@ -113,6 +130,12 @@ public final class PowerGridBlueprintNodes {
             ctx.setOutput("voltage", output.getOutputVoltage());
             ctx.setOutput("current", output.getOutputCurrent());
             ctx.setOutput("sourceResistance", output.getSourceResistance());
+            ctx.setOutput("voltageSetting", output.getConfiguredVoltage());
+            ctx.setOutput("currentLimit", output.getConfiguredCurrentLimit());
+            ctx.setOutput("powerSetting", output.getConfiguredPower());
+            ctx.setOutput("voltageOverridden", output.isVoltageOverridden());
+            ctx.setOutput("currentOverridden", output.isCurrentOverridden());
+            ctx.setOutput("powerOverridden", output.isPowerOverridden());
             ctx.setOutput("terminalCount", definition.getTerminalCount());
             ctx.setOutput("maxCurrent", definition.getMaxCurrent());
             ctx.setOutput("continuousPower", (double) definition.getContinuousPower());

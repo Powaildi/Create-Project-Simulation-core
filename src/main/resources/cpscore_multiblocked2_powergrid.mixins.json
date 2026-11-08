@@ -9,6 +9,9 @@
     "MBDKineticMachineBlockEntityMixin",
     "MBDKineticMachineBlockMixin"
   ],
+  "client": [
+    "MachineTraitViewMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
